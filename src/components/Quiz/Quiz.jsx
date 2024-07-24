@@ -14,6 +14,8 @@ const Quiz = () => {
   const [showTimer, setShowTimer] = useState(true);
   const [inputAnswer, setInputAnswer] = useState("");
   const [username, setUsername] = useState("");
+  const [showLeaderboard, setShowLeaderboard] = useState(false); 
+  const [leaderboard, setLeaderboard] = useState([]);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -24,7 +26,6 @@ const Quiz = () => {
         console.error('Error fetching questions:', error);
       }
     };
-
     fetchQuestions();
   }, []);
 
@@ -32,7 +33,7 @@ const Quiz = () => {
     return <div>Loading...</div>;
   }
 
-  const { question, choices, correctAnswer, type } = questions[currentQuestion];
+  const { id, question, choices, correctAnswer, type } = questions[currentQuestion];
 
   const onAnswerClick = (answer, index) => {
     setAnswerIndex(index);
@@ -42,6 +43,11 @@ const Quiz = () => {
   const onClickNext = async () => {
     setAnswerIndex(null);
     setShowTimer(false);
+    let incrementScore = 0;
+
+    if (answer) {
+      incrementScore = 5;
+    }
 
     setResult((prev) =>
       answer
@@ -49,25 +55,26 @@ const Quiz = () => {
         : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
     );
 
+    setTimeout(() => {
+      setShowTimer(true);
+    }, 100);
+
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
     } else {
-      setShowResult(true);
       
       try {
         await axios.post('http://localhost:3001/api/score', {
           username: username,
-          score: result.score
+          score: result.score + incrementScore
         });
       } catch (error) {
         console.error('Error saving score:', error);
       }
+      setShowResult(true);
       
     }
 
-    setTimeout(() => {
-      setShowTimer(true);
-    }, 100); // Add a small delay to ensure timer reset
   };
 
   const handleTimeout = () => {
@@ -82,6 +89,8 @@ const Quiz = () => {
     setAnswerIndex(null);
     setAnswer(null);
     setInputAnswer("");
+    setShowLeaderboard(false);
+    setLeaderboard([]);
   };
 
   const handleInput = (event) => {
@@ -101,7 +110,6 @@ const Quiz = () => {
   }
 
   const getAnswerUI = () => {
-    console.log(type);
     if(type === 'username'){
       return <input value={username} onChange={handleUsername}></input>
     }
@@ -123,11 +131,23 @@ const Quiz = () => {
     );
   };
 
+  const fetchLeaderboard = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/api/leaderboard');
+      setLeaderboard(response.data);
+      console.log(response.data);
+      setShowLeaderboard(true);
+      setShowResult(false);
+    } catch (error) {
+      console.error('Error fetching leaderboard:', error);
+    }
+  };
+
   return (
     <div className='quiz-container'>
-      {!showResult ? (
+      {!showResult && !showLeaderboard ? (
         <>
-          {showTimer && <AnswerTimer duration={10} onTimeUp={handleTimeout} />}
+          { type!=='username' && showTimer && <AnswerTimer duration={10} onTimeUp={handleTimeout} />}
           <span className='active-question-no'>{currentQuestion + 1}</span>
           <span className='total-question'>/{questions.length}</span>
           <h2>{question}</h2>
@@ -141,7 +161,7 @@ const Quiz = () => {
             </button>
           </div>
         </>
-      ) : (
+      ) : showResult ? (
         <div className='result'>
           <h3>Result</h3>
           <p>
@@ -157,6 +177,19 @@ const Quiz = () => {
             Wrong Answers: <span>{result.wrongAnswers-1}</span>
           </p>
           <button onClick={onTryAgain}>Try Again</button>
+          <button onClick={fetchLeaderboard}>Leaderboard</button>
+        </div>
+      ) : (
+        <div className='leaderboard'>
+          <h3>Leaderboard</h3>
+          <ul>
+            {leaderboard.map((entry, index) => (
+              <li key={index}>
+                {entry.username}: {entry.score}
+              </li>
+            ))}
+          </ul>
+          <button onClick={onTryAgain}>Back to Quiz</button>
         </div>
       )}
     </div>

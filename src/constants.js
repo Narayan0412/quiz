@@ -1,72 +1,102 @@
 export const jsQuizz = {
-  questions :[
+  questions : [
     {
       "id": 0,
-      "question": "______ provide a way to pass data from one component to another. Fill in the blank.",
+      "question": "______ is a linear data structure that follows the Last In First Out (LIFO) principle. Fill in the blank.",
       "type": "FIB",
-      "correctAnswer": "props"
+      "correctAnswer": "Stack"
     },
     {
       "id": 1,
-      "question": "Which of the following is used in React.js to increase performance?",
+      "question": "Which data structure uses the First In First Out (FIFO) principle?",
       "choices": [
-        "Virtual DOM",
-        "Original DOM",
-        "Both A and B",
-        "None of the above"
+        "Stack",
+        "Queue",
+        "Tree",
+        "Graph"
       ],
       "type": "MCQs",
-      "correctAnswer": "Virtual DOM"
+      "correctAnswer": "Queue"
     },
     {
       "id": 2,
-      "question": "What is ReactJS?",
+      "question": "What is the time complexity of searching for an element in a balanced binary search tree (BST)?",
       "choices": [
-        "Server-side framework",
-        "User Interface framework",
-        "both a and b",
-        "None of the above"
+        "O(1)",
+        "O(n)",
+        "O(log n)",
+        "O(n log n)"
       ],
       "type": "MCQs",
-      "correctAnswer": "User Interface framework"
+      "correctAnswer": "O(log n)"
     },
     {
       "id": 3,
-      "question": "Identify the one which is used to pass data to components from outside",
-      "choices": [
-        "Render with arguments",
-        "setState",
-        "PropTypes",
-        "props"
-      ],
-      "type": "MCQs",
-      "correctAnswer": "props"
+      "question": "______ is used to find the shortest path in a graph. Fill in the blank.",
+      "type": "FIB",
+      "correctAnswer": "Dijkstra's algorithm"
     },
     {
       "id": 4,
-      "question": "In which language is React.js written?",
+      "question": "Which of the following sorting algorithms has the best average case time complexity?",
       "choices": [
-        "Python",
-        "Java",
-        "C#",
-        "JavaScript"
+        "Bubble Sort",
+        "Merge Sort",
+        "Quick Sort",
+        "Insertion Sort"
       ],
       "type": "MCQs",
-      "correctAnswer": "JavaScript"
+      "correctAnswer": "Merge Sort"
     },
     {
       "id": 5,
-      "question": "What is Babel?",
+      "question": "What data structure is used in a depth-first search (DFS) algorithm?",
       "choices": [
-        "JavaScript interpreter",
-        "JavaScript transpiler",
-        "JavaScript compiler",
-        "None of the above"
+        "Queue",
+        "Stack",
+        "Array",
+        "Linked List"
       ],
       "type": "MCQs",
-      "correctAnswer": "JavaScript compiler"
+      "correctAnswer": "Stack"
+    },
+    {
+      "id": 6,
+      "question": "In a max-heap, the value of each node is ______ than or equal to the values of its children. Fill in the blank.",
+      "type": "FIB",
+      "correctAnswer": "greater"
+    },
+    {
+      "id": 7,
+      "question": "Which data structure is used for implementing recursion?",
+      "choices": [
+        "Queue",
+        "Stack",
+        "Tree",
+        "Graph"
+      ],
+      "type": "MCQs",
+      "correctAnswer": "Stack"
+    },
+    {
+      "id": 8,
+      "question": "______ is a technique for solving problems by breaking them down into smaller subproblems. Fill in the blank.",
+      "type": "FIB",
+      "correctAnswer": "Divide and conquer"
+    },
+    {
+      "id": 9,
+      "question": "Which algorithm is used for finding the minimum spanning tree of a graph?",
+      "choices": [
+        "Dijkstra's algorithm",
+        "Prim's algorithm",
+        "Bellman-Ford algorithm",
+        "Kruskal's algorithm"
+      ],
+      "type": "MCQs",
+      "correctAnswer": "Prim's algorithm"
     }
-  ],
+  ],  
 };
 
 export const resultInitialState = {
